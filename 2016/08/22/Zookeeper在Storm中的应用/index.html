@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="zookeeper," />
 
 
 
@@ -84,12 +84,27 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Github搬运工">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="Zookeeper在Storm中的应用Storm与Zookeeper关联Storm与zookeeper关系如下图：由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：
+
+存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；
+存储super">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zookeeper在Storm中的应用">
+<meta property="og:url" content="http://yoursite.com/2016/08/22/Zookeeper在Storm中的应用/index.html">
 <meta property="og:site_name" content="Github搬运工">
+<meta property="og:description" content="Zookeeper在Storm中的应用Storm与Zookeeper关联Storm与zookeeper关系如下图：由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：
+
+存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；
+存储super">
+<meta property="og:image" content="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png">
+<meta property="og:updated_time" content="2016-08-22T14:27:33.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github搬运工">
+<meta name="twitter:title" content="Zookeeper在Storm中的应用">
+<meta name="twitter:description" content="Zookeeper在Storm中的应用Storm与Zookeeper关联Storm与zookeeper关系如下图：由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：
+
+存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；
+存储super">
+<meta name="twitter:image" content="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png">
 
 
 
@@ -110,9 +125,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/22/Zookeeper在Storm中的应用/"/>
 
-  <title> Github搬运工 </title>
+  <title> Zookeeper在Storm中的应用 | Github搬运工 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -133,9 +148,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -232,9 +245,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -254,10 +267,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/22/Zookeeper在Storm中的应用/" itemprop="url">
-                  Zookeeper在Storm中的应用
-                </a>
+                Zookeeper在Storm中的应用
               
             
           </h1>
@@ -316,9 +326,7 @@
       
 
       
-        
-          
-            <h1 id="Zookeeper在Storm中的应用"><a href="#Zookeeper在Storm中的应用" class="headerlink" title="Zookeeper在Storm中的应用"></a>Zookeeper在Storm中的应用</h1><h2 id="Storm与Zookeeper关联"><a href="#Storm与Zookeeper关联" class="headerlink" title="Storm与Zookeeper关联"></a>Storm与Zookeeper关联</h2><p>Storm与zookeeper关系如下图：<br><img src="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png" alt="Storm与zookeeper关系"><br>由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：</p>
+        <h1 id="Zookeeper在Storm中的应用"><a href="#Zookeeper在Storm中的应用" class="headerlink" title="Zookeeper在Storm中的应用"></a>Zookeeper在Storm中的应用</h1><h2 id="Storm与Zookeeper关联"><a href="#Storm与Zookeeper关联" class="headerlink" title="Storm与Zookeeper关联"></a>Storm与Zookeeper关联</h2><p>Storm与zookeeper关系如下图：<br><img src="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png" alt="Storm与zookeeper关系"><br>由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：</p>
 <ul>
 <li>存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；</li>
 <li>存储supervisor和worker的心跳，使得nimbus可以监控整个集群的状态， 从而将挂掉的worker的任务重新分配到其他worker； </li>
@@ -332,152 +340,59 @@
 <p>###Nimbus 或者 Supervisor 的后台进程挂掉时会发生什么？<br>Nimbus 和 Supervisor 的后台进程本身是设计为快速失败（无论何时发生了异常情况之后都会启动自毁操作）和无状态（所有的状态由 ZooKeeper 负责管理）的。Nimbus 和 Supervisor 的后台进程实际上是在后台监控工具的监控之下运行的。所以，如果 Nimbus 或者 Supervisor 进程挂掉，他们就会静默地自动重启。并且，Nimbus 和 Supervisor 的故障不会影响任何工作进程。</p>
 <p>###Nimbus 是系统的单故障点1吗？<br>如果 Nimbus 节点出现故障无法访问，集群中的 worker 仍然会继续保持运行。另外，此时 Supervisor 也仍然会正常工作，在 worker 挂掉时自动重启挂掉的进程。但是，由于缺少 Nimbus 的协调，worker 就不会在必要的时候重新分配到不同的机器中。</p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/zookeeper-getstarted/" itemprop="url">
-                  zookeeper环境搭建
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T12:53:35+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>wget</code>命令下载安装包<br>tar xvf  zookeeper-3.4.8.tar.gz</p>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>cp conf/zoo_sample.cfg conf/zoo.cfg<br>vi conf/zoo.cfg<br>将dataDir修改为自己设定的目录</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/22/zookeeper-getstarted/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/zookeeper-getstarted/" rel="next" title="zookeeper环境搭建">
+                <i class="fa fa-chevron-left"></i> zookeeper环境搭建
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -485,6 +400,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -504,8 +423,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -566,6 +494,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper在Storm中的应用"><span class="nav-number">1.</span> <span class="nav-text">Zookeeper在Storm中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Storm与Zookeeper关联"><span class="nav-number">1.1.</span> <span class="nav-text">Storm与Zookeeper关联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Storm中在Zookeeper中存储的目录："><span class="nav-number">1.2.</span> <span class="nav-text">Storm中在Zookeeper中存储的目录：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容错性"><span class="nav-number">1.3.</span> <span class="nav-text">容错性</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -662,6 +601,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
