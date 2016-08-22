@@ -1,0 +1,632 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="zookeeper," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="安装wget命令下载安装包tar xvf  zookeeper-3.4.8.tar.gz
+修改配置文件cp conf/zoo_sample.cfg conf/zoo.cfgvi conf/zoo.cfg将dataDir修改为自己设定的目录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zookeeper环境搭建">
+<meta property="og:url" content="http://yoursite.com/2016/08/22/zookeeper-getstarted/index.html">
+<meta property="og:site_name" content="Github搬运工">
+<meta property="og:description" content="安装wget命令下载安装包tar xvf  zookeeper-3.4.8.tar.gz
+修改配置文件cp conf/zoo_sample.cfg conf/zoo.cfgvi conf/zoo.cfg将dataDir修改为自己设定的目录">
+<meta property="og:updated_time" content="2016-08-22T12:30:47.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zookeeper环境搭建">
+<meta name="twitter:description" content="安装wget命令下载安装包tar xvf  zookeeper-3.4.8.tar.gz
+修改配置文件cp conf/zoo_sample.cfg conf/zoo.cfgvi conf/zoo.cfg将dataDir修改为自己设定的目录">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/08/22/zookeeper-getstarted/"/>
+
+  <title> zookeeper环境搭建 | Github搬运工 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Github搬运工</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                zookeeper环境搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T12:53:35+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
+                    <span itemprop="name">zookeeper</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>wget</code>命令下载安装包<br>tar xvf  zookeeper-3.4.8.tar.gz</p>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>cp conf/zoo_sample.cfg conf/zoo.cfg<br>vi conf/zoo.cfg<br>将dataDir修改为自己设定的目录</p>
+<a id="more"></a>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>bin/zkServer.sh start<br>若start指定配置文件，则会启动相应的机器</p>
+<h2 id="停止"><a href="#停止" class="headerlink" title="停止"></a>停止</h2><p>bin/zkServer.sh stop</p>
+<h2 id="配置伪分布式集群"><a href="#配置伪分布式集群" class="headerlink" title="配置伪分布式集群"></a>配置伪分布式集群</h2><p>所谓 “伪分布式集群” 就是在，在一台PC中，启动多个ZooKeeper的实例。“完全分布式集群” 是每台PC，启动一个ZooKeeper实例。</p>
+<h3 id="新建myid文件"><a href="#新建myid文件" class="headerlink" title="新建myid文件"></a>新建myid文件</h3><p>~ echo “1” &gt; /opt/zookeeper/zk1/myid<br>~ echo “2” &gt; /opt/zookeeper/zk2/myid<br>~ echo “3” &gt; /opt/zookeeper/zk3/myid</p>
+<h3 id="配置文件说明"><a href="#配置文件说明" class="headerlink" title="配置文件说明"></a>配置文件说明</h3><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">tickTime=<span class="number">2000</span></div><div class="line">initLimit=<span class="number">5</span></div><div class="line">syncLimit=<span class="number">2</span></div><div class="line">dataDir=/opt/zookeeper/zk3</div><div class="line">clientPort=<span class="number">2183</span></div><div class="line">server<span class="meta">.1</span>=<span class="number">114.215</span><span class="meta">.102</span><span class="meta">.167</span>:<span class="number">2888</span>:<span class="number">3888</span></div><div class="line">server<span class="meta">.2</span>=<span class="number">114.215</span><span class="meta">.102</span><span class="meta">.167</span>:<span class="number">2889</span>:<span class="number">3889</span></div><div class="line">server<span class="meta">.3</span>=<span class="number">114.215</span><span class="meta">.102</span><span class="meta">.167</span>:<span class="number">2890</span>:<span class="number">3890</span></div></pre></td></tr></table></figure>
+<h4 id="单机模式下"><a href="#单机模式下" class="headerlink" title="单机模式下"></a>单机模式下</h4><ul>
+<li><p>tickTime：这个时间是作为 Zookeeper 服务器之间或客户端与服务器之间维持心跳的时间间隔，也就是每个 tickTime 时间就会发送一个心跳。</p>
+</li>
+<li><p>dataDir：顾名思义就是 Zookeeper 保存数据的目录，默认情况下，Zookeeper 将写数据的日志文件也保存在这个目录里。</p>
+</li>
+<li><p>clientPort：这个端口就是客户端连接 Zookeeper 服务器的端口，Zookeeper 会监听这个端口，接受客户端的访问请求。</p>
+<h4 id="集群模式下"><a href="#集群模式下" class="headerlink" title="集群模式下"></a>集群模式下</h4></li>
+<li><p>initLimit：这个配置项是用来配置 Zookeeper 接受客户端（这里所说的客户端不是用户连接 Zookeeper 服务器的客户端，而是 Zookeeper 服务器集群中连接到 Leader 的 Follower 服务器）初始化连接时最长能忍受多少个心跳时间间隔数。当已经超过 10 个心跳的时间（也就是 tickTime）长度后 Zookeeper 服务器还没有收到客户端的返回信息，那么表明这个客户端连接失败。总的时间长度就是 5*2000=10 秒</p>
+</li>
+<li><p>syncLimit：这个配置项标识 Leader 与 Follower 之间发送消息，请求和应答时间长度，最长不能超过多少个 tickTime 的时间长度，总的时间长度就是 2*2000=4 秒</p>
+</li>
+<li><p>server.A=B：C：D：其中 A 是一个数字，表示这个是第几号服务器；B 是这个服务器的 ip 地址；C 表示的是这个服务器与集群中的 Leader 服务器交换信息的端口；D 表示的是万一集群中的 Leader 服务器挂了，需要一个端口来重新进行选举，选出一个新的 Leader，而这个端口就是用来执行选举时服务器相互通信的端口。如果是伪集群的配置方式，由于 B 都是一样，所以不同的 Zookeeper 实例通信端口号不能一样，所以要给它们分配不同的端口号。</p>
+</li>
+<li><p>除了修改 zoo.cfg 配置文件，集群模式下还要配置一个文件 myid，这个文件在 dataDir 目录下，这个文件里面就有一个数据就是 A 的值，Zookeeper 启动时会读取这个文件，拿到里面的数据与 zoo.cfg 里面的配置信息比较从而判断到底是那个 server。</p>
+<h3 id="修改配置文件-1"><a href="#修改配置文件-1" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>修改：dataDir,clientPort<br>增加：集群的实例，server.X，”X”表示每个目录中的myid的值<br>conf/zk1.cfg<br>conf/zk2.cfg<br>conf/zk3.cfg</p>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># The number of milliseconds of each tick</span></div><div class="line">tickTime=2000</div><div class="line"><span class="comment"># The number of ticks that the initial</span></div><div class="line"><span class="comment"># synchronization phase can take</span></div><div class="line">initLimit=10</div><div class="line"><span class="comment"># The number of ticks that can pass between</span></div><div class="line"><span class="comment"># sending a request and getting an acknowledgement</span></div><div class="line">syncLimit=5</div><div class="line"><span class="comment"># the directory where the snapshot is stored.</span></div><div class="line"><span class="comment"># do not use /tmp for storage, /tmp here is just</span></div><div class="line"><span class="comment"># example sakes.</span></div><div class="line">dataDir=/opt/zookeeper/zk3</div><div class="line"><span class="comment"># the port at which the clients will connect</span></div><div class="line">clientPort=2183</div><div class="line">server.1=114.215.102.167:2888:3888</div><div class="line">server.2=114.215.102.167:2889:3889</div><div class="line">server.3=114.215.102.167:2890:3890</div></pre></td></tr></table></figure>
+<h3 id="启动集群"><a href="#启动集群" class="headerlink" title="启动集群"></a>启动集群</h3><p>bin/zkServer.sh start zk1.cfg<br>bin/zkServer.sh start zk2.cfg<br>bin/zkServer.sh start zk3.cfg<br>若启动的服务器数量没有大于等于总数的1/2，调用status命令则会出现Error contacting service. It is probably not running.错误</p>
+<h3 id="查看节点状态"><a href="#查看节点状态" class="headerlink" title="查看节点状态"></a>查看节点状态</h3><p>bin/zkServer.sh status zk1.cfg<br>如果出现如下信息：<br><figure class="highlight subunit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ZooKeeper JMX enabled by default</div><div class="line">Using config: /opt/zookeeper/zookeeper348/bin/../conf/zk1.cfg</div><div class="line"><span class="keyword">Error </span>contacting service. It is probably not running.</div></pre></td></tr></table></figure></p>
+<p>请检查zk1.cfg配置文件是否正确填写，如server ip地址是否正确，端口号是否被占用，dataDir路径是否存在等</p>
+<h3 id="终止节点"><a href="#终止节点" class="headerlink" title="终止节点"></a>终止节点</h3><p>bin/zkServer.sh stop zk1.cfg</p>
+<h2 id="连接zookeeper服务器"><a href="#连接zookeeper服务器" class="headerlink" title="连接zookeeper服务器"></a>连接zookeeper服务器</h2><p>bin/zkCli.sh -server 114.215.102.167:2181</p>
+<h2 id="zookeeper常用命令"><a href="#zookeeper常用命令" class="headerlink" title="zookeeper常用命令"></a>zookeeper常用命令</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">输入：<span class="keyword">help</span></div><div class="line">ZooKeeper -<span class="keyword">server</span> host:port cmd args</div><div class="line">        <span class="keyword">connect</span> host:port</div><div class="line">        <span class="keyword">get</span> <span class="keyword">path</span> [watch]</div><div class="line">        ls <span class="keyword">path</span> [watch]</div><div class="line">        <span class="keyword">set</span> <span class="keyword">path</span> <span class="keyword">data</span> [<span class="keyword">version</span>]</div><div class="line">        rmr <span class="keyword">path</span></div><div class="line">        delquota [-n|-b] <span class="keyword">path</span></div><div class="line">        quit</div><div class="line">        printwatches <span class="keyword">on</span>|<span class="keyword">off</span></div><div class="line">        <span class="keyword">create</span> [-s] [-e] <span class="keyword">path</span> <span class="keyword">data</span> acl</div><div class="line">        stat <span class="keyword">path</span> [watch]</div><div class="line">        <span class="keyword">close</span></div><div class="line">        ls2 <span class="keyword">path</span> [watch]</div><div class="line">        history</div><div class="line">        listquota <span class="keyword">path</span></div><div class="line">        setAcl <span class="keyword">path</span> acl</div><div class="line">        getAcl <span class="keyword">path</span></div><div class="line">        <span class="keyword">sync</span> <span class="keyword">path</span></div><div class="line">        <span class="keyword">redo</span> cmdno</div><div class="line">        addauth scheme auth</div><div class="line">        <span class="keyword">delete</span> <span class="keyword">path</span> [<span class="keyword">version</span>]</div><div class="line">        setquota -n|-b val <span class="keyword">path</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/zookeeper/" rel="tag">#zookeeper</a>
+          
+        </div>
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="vino007" />
+          <p class="site-author-name" itemprop="name">vino007</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/vino007" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改配置文件"><span class="nav-number">2.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动"><span class="nav-number">3.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#停止"><span class="nav-number">4.</span> <span class="nav-text">停止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置伪分布式集群"><span class="nav-number">5.</span> <span class="nav-text">配置伪分布式集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建myid文件"><span class="nav-number">5.1.</span> <span class="nav-text">新建myid文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置文件说明"><span class="nav-number">5.2.</span> <span class="nav-text">配置文件说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单机模式下"><span class="nav-number">5.2.1.</span> <span class="nav-text">单机模式下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群模式下"><span class="nav-number">5.2.2.</span> <span class="nav-text">集群模式下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件-1"><span class="nav-number">5.3.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动集群"><span class="nav-number">5.4.</span> <span class="nav-text">启动集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看节点状态"><span class="nav-number">5.5.</span> <span class="nav-text">查看节点状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#终止节点"><span class="nav-number">5.6.</span> <span class="nav-text">终止节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接zookeeper服务器"><span class="nav-number">6.</span> <span class="nav-text">连接zookeeper服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper常用命令"><span class="nav-number">7.</span> <span class="nav-text">zookeeper常用命令</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">vino007</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
