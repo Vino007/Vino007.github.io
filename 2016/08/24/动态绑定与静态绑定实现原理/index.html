@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -84,12 +84,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Github搬运工">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="静态绑定与动态绑定的定义类的生命周期大致是这样一个过程：加载-&amp;gt;验证-&amp;gt;准备-&amp;gt;解析-&amp;gt;初始化-&amp;gt;使用-&amp;gt;卸载而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）在编译阶段就进行解析确定类型的叫做静态绑定。Java为了实现方法多态，将Override的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态绑定与静态绑定实现原理">
+<meta property="og:url" content="http://yoursite.com/2016/08/24/动态绑定与静态绑定实现原理/index.html">
 <meta property="og:site_name" content="Github搬运工">
+<meta property="og:description" content="静态绑定与动态绑定的定义类的生命周期大致是这样一个过程：加载-&amp;gt;验证-&amp;gt;准备-&amp;gt;解析-&amp;gt;初始化-&amp;gt;使用-&amp;gt;卸载而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）在编译阶段就进行解析确定类型的叫做静态绑定。Java为了实现方法多态，将Override的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的">
+<meta property="og:image" content="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A81.png">
+<meta property="og:image" content="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A82.png">
+<meta property="og:image" content="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A83.png">
+<meta property="og:updated_time" content="2016-08-24T08:14:49.169Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github搬运工">
+<meta name="twitter:title" content="动态绑定与静态绑定实现原理">
+<meta name="twitter:description" content="静态绑定与动态绑定的定义类的生命周期大致是这样一个过程：加载-&amp;gt;验证-&amp;gt;准备-&amp;gt;解析-&amp;gt;初始化-&amp;gt;使用-&amp;gt;卸载而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）在编译阶段就进行解析确定类型的叫做静态绑定。Java为了实现方法多态，将Override的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的">
+<meta name="twitter:image" content="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A81.png">
 
 
 
@@ -110,9 +118,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/24/动态绑定与静态绑定实现原理/"/>
 
-  <title> Github搬运工 </title>
+  <title> 动态绑定与静态绑定实现原理 | Github搬运工 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -133,9 +141,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -232,9 +238,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -254,10 +260,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/08/24/动态绑定与静态绑定实现原理/" itemprop="url">
-                  动态绑定与静态绑定实现原理
-                </a>
+                动态绑定与静态绑定实现原理
               
             
           </h1>
@@ -316,279 +319,71 @@
       
 
       
-        
-          <h2 id="静态绑定与动态绑定的定义"><a href="#静态绑定与动态绑定的定义" class="headerlink" title="静态绑定与动态绑定的定义"></a>静态绑定与动态绑定的定义</h2><p>类的生命周期大致是这样一个过程：加载-&gt;验证-&gt;准备-&gt;解析-&gt;初始化-&gt;使用-&gt;卸载<br>而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）<br>在编译阶段就进行解析确定类型的叫做静态绑定。<br>Java为了实现方法多态，将<code>Override</code>的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的，只有到运行时才知道），<code>overload</code>方法使用静态绑定<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/24/动态绑定与静态绑定实现原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+        <h2 id="静态绑定与动态绑定的定义"><a href="#静态绑定与动态绑定的定义" class="headerlink" title="静态绑定与动态绑定的定义"></a>静态绑定与动态绑定的定义</h2><p>类的生命周期大致是这样一个过程：加载-&gt;验证-&gt;准备-&gt;解析-&gt;初始化-&gt;使用-&gt;卸载<br>而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）<br>在编译阶段就进行解析确定类型的叫做静态绑定。<br>Java为了实现方法多态，将<code>Override</code>的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的，只有到运行时才知道），<code>overload</code>方法使用静态绑定<br><a id="more"></a></p>
+<h2 id="虚方法"><a href="#虚方法" class="headerlink" title="虚方法"></a>虚方法</h2><p>Java中其实没有虚方法的概念，它的普通方法就相当于C++的虚函数，动态绑定是Java的默认行为。如果Java中不希望某个方法具有虚方法特性，可以加上<code>private</code>,<code>static</code>,<code>final</code>关键字变成非虚函数(All non-final non-private, not-static methods in Java are virtual)<br>JVM中通过<code>INVOKEVIRTUAL</code>来调用虚方法，<code>INVOKESPECIAL</code>,<code>INVOKESTATIC</code>来调用非虚方法</p>
+<h2 id="静态绑定与动态绑定的区别"><a href="#静态绑定与动态绑定的区别" class="headerlink" title="静态绑定与动态绑定的区别"></a>静态绑定与动态绑定的区别</h2><ol>
+<li>静态绑定在编译时期，动态绑定在运行时期。</li>
+<li>静态绑定只用到类型信息，方法的解析根据引用变量的类型决定，而动态绑定则根据实际引用的的对象决定</li>
+<li>在java中，<code>private</code>、<code>static</code> 、<code>final</code>方法都是静态绑定，只有虚方法才是动态绑定</li>
+<li>多态是通过动态绑定实现的。</li>
+</ol>
+<h2 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h2><p>一个对象的多态方法的地址将被存储在该类的方法表（存储在Class对象中）里面，方法表是一个用来存放方法地址指针的一个数组。在运行时，调用多态方法的时候，JVM会在此表中进行搜索，从而获取方法的地址。方法表里包含方法的名字和对应的地址（注意，这个地址是动态绑定的）。<br>若以<code>Integer</code>类为例，它的方法表如下：<br>首先在方法表中添加最早的父类<code>Object</code>的方法<br><img src="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A81.png" alt="方法表1"></p>
+<p>继续添加<code>Number</code>父类的方法:<br><img src="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A82.png" alt="方法表2"><br>添加<code>Integer</code>的方法，由于Integer override 父类的<code>toString()</code>与i<code>niValue()</code>方法，因此这两个方法的地址被替换成<code>Integer</code>对应的方法的地址<br><img src="http://ocbdflrbk.bkt.clouddn.com/%E6%96%B9%E6%B3%95%E8%A1%A83.png" alt="方法表3"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://wpollock.com/Java/PolyMorphism.htm" target="_blank" rel="external">http://wpollock.com/Java/PolyMorphism.htm</a></p>
+
       
     </div>
 
     <div>
       
+        
+
+      
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/Zookeeper在Storm中的应用/" itemprop="url">
-                  Zookeeper在Storm中的应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T22:24:55+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/Java/" rel="tag">#Java</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="Zookeeper在Storm中的应用"><a href="#Zookeeper在Storm中的应用" class="headerlink" title="Zookeeper在Storm中的应用"></a>Zookeeper在Storm中的应用</h1><h2 id="Storm与Zookeeper关联"><a href="#Storm与Zookeeper关联" class="headerlink" title="Storm与Zookeeper关联"></a>Storm与Zookeeper关联</h2><p>Storm与zookeeper关系如下图：<br><img src="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png" alt="Storm与zookeeper关系"><br>由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：</p>
-<ul>
-<li>存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；</li>
-<li>存储supervisor和worker的心跳，使得nimbus可以监控整个集群的状态， 从而将挂掉的worker的任务重新分配到其他worker； </li>
-<li>存储整个集群的所有状态信息和配置信息。</li>
-</ul>
-<p>由此可见Storm的所有的状态信息都保存在Zookeeper里面，nimbus通过在zookeeper上面写状态信息来分配任务，supervisor将节点的健康状态写在zookeeper上，使得nimbus可以监控整个storm集群的状态，从而可以重启一些挂掉的task。 ZooKeeper使得整个storm集群十分的健壮-—任何一台工作机器挂掉都没有关系，只要重启然后从zookeeper上面重新获取状态信息就可以了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/22/Zookeeper在Storm中的应用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/Zookeeper在Storm中的应用/" rel="next" title="Zookeeper在Storm中的应用">
+                <i class="fa fa-chevron-left"></i> Zookeeper在Storm中的应用
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/zookeeper-getstarted/" itemprop="url">
-                  zookeeper环境搭建
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T12:53:35+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>wget</code>命令下载安装包<br>tar xvf  zookeeper-3.4.8.tar.gz</p>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>cp conf/zoo_sample.cfg conf/zoo.cfg<br>vi conf/zoo.cfg<br>将dataDir修改为自己设定的目录</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/22/zookeeper-getstarted/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -596,6 +391,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -615,8 +414,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -677,6 +485,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#静态绑定与动态绑定的定义"><span class="nav-number">1.</span> <span class="nav-text">静态绑定与动态绑定的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚方法"><span class="nav-number">2.</span> <span class="nav-text">虚方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#静态绑定与动态绑定的区别"><span class="nav-number">3.</span> <span class="nav-text">静态绑定与动态绑定的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现机制"><span class="nav-number">4.</span> <span class="nav-text">实现机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -773,6 +592,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
