@@ -94,7 +94,7 @@
 <meta property="og:description" content="概念
 阻塞同步：即互斥同步，包括synchronized,Lock 。悲观锁，总是认为数据会被更改，无论共享的数据是否会出现竞争，都会进行加锁，用户态和内核态转换，维护锁计数器和检查是否有被阻塞的线程需要唤醒等操作，耗费性能。
 非阻塞同步：采用乐观锁，当数据产生了冲突才采取补偿措施（最常见的补偿措施就是不断的重试，直到成功为止），这种乐观的并发策略不需要把线程挂起，极大提升了性能">
-<meta property="og:updated_time" content="2016-08-25T05:51:26.425Z">
+<meta property="og:updated_time" content="2016-08-25T05:55:49.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="非阻塞同步实现">
 <meta name="twitter:description" content="概念
@@ -324,8 +324,10 @@
         <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
 <li>阻塞同步：即互斥同步，包括synchronized,Lock 。悲观锁，总是认为数据会被更改，无论共享的数据是否会出现竞争，都会进行加锁，用户态和内核态转换，维护锁计数器和检查是否有被阻塞的线程需要唤醒等操作，耗费性能。</li>
 <li>非阻塞同步：采用乐观锁，当数据产生了冲突才采取补偿措施（最常见的补偿措施就是不断的重试，直到成功为止），这种乐观的并发策略不需要把线程挂起，极大提升了性能<a id="more"></a>
-<h2 id="实现非阻塞同步条件"><a href="#实现非阻塞同步条件" class="headerlink" title="实现非阻塞同步条件"></a>实现非阻塞同步条件</h2>需要硬件指令集来支持如CAS指令（比较并交换）<br>CAS指令需要三个操作数：V(内存地址)，A(预期值)，B（新值）<br>当执行CAS指令的时候，只有V符合预期的A值时，才会将V的值更新为B，否则就不更新，并且无论是否更新成功，都会返回V的旧值<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2>这里分析要J.U.C下的AtomicInteger类，大部分方法都使用了Unsafe类提供的CAS操作</li>
+</li>
 </ul>
+<h2 id="实现非阻塞同步条件"><a href="#实现非阻塞同步条件" class="headerlink" title="实现非阻塞同步条件"></a>实现非阻塞同步条件</h2><p>需要硬件指令集来支持如CAS指令（比较并交换）<br>CAS指令需要三个操作数：V(内存地址)，A(预期值)，B（新值）<br>当执行CAS指令的时候，只有V符合预期的A值时，才会将V的值更新为B，否则就不更新，并且无论是否更新成功，都会返回V的旧值</p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>这里分析要J.U.C下的AtomicInteger类，大部分方法都使用了Unsafe类提供的CAS操作</p>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自增并返回更新后的结果</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">int</span> <span class="title">incrementAndGet</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> unsafe.getAndAddInt(<span class="keyword">this</span>, valueOffset, <span class="number">1</span>) + <span class="number">1</span>;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//进行加法运算，如果旧值与期望值不同，则循环，直到更新成功</span></div><div class="line"> <span class="function"><span class="keyword">public</span> final <span class="keyword">int</span> <span class="title">getAndAddInt</span><span class="params">(Object o, <span class="keyword">long</span> offset, <span class="keyword">int</span> delta)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> v;</div><div class="line">        <span class="keyword">do</span> &#123;</div><div class="line">            v = getIntVolatile(o, offset);</div><div class="line">        &#125; <span class="keyword">while</span> (!compareAndSwapInt(o, offset, v, v + delta));</div><div class="line">        <span class="keyword">return</span> v;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <figure class="highlight processing"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *Atomically update Java variable to x if it is currently holding expected.</div><div class="line"> *Returns:</div><div class="line"> *true if successful</div><div class="line"> */</div><div class="line"> <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="built_in">boolean</span> More ...compareAndSwapInt(<span class="keyword">Object</span> o, <span class="keyword">long</span> offset,  <span class="built_in">int</span> expected,<span class="built_in">int</span> x);</div></pre></td></tr></table></figure>
@@ -513,7 +515,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
