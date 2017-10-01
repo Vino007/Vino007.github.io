@@ -88,9 +88,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thrift入门">
 <meta property="og:url" content="http://yoursite.com/2017/09/29/Thrift入门/index.html">
-<meta property="og:site_name" content="Github搬运工">
+<meta property="og:site_name" content="海边的阿月">
 <meta property="og:description" content="Thrift是什么Thrift是一个跨语言的服务部署框架，最初由Facebook于2007年开发，2008年进入Apache开源项目。Thrift通过IDL（Interface Definition Language，接口定义语言）来定义RPC（Remote Procedure Call，远程过程调用）的接口和数据类型，然后通过thrift编译器生成不同语言的代码，并由生成的代码负责RPC协议层和">
-<meta property="og:updated_time" content="2017-09-29T15:14:34.789Z">
+<meta property="og:updated_time" content="2017-10-01T05:58:42.357Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thrift入门">
 <meta name="twitter:description" content="Thrift是什么Thrift是一个跨语言的服务部署框架，最初由Facebook于2007年开发，2008年进入Apache开源项目。Thrift通过IDL（Interface Definition Language，接口定义语言）来定义RPC（Remote Procedure Call，远程过程调用）的接口和数据类型，然后通过thrift编译器生成不同语言的代码，并由生成的代码负责RPC协议层和">
@@ -116,7 +116,7 @@
 
   <link rel="canonical" href="http://yoursite.com/2017/09/29/Thrift入门/"/>
 
-  <title> Thrift入门 | Github搬运工 </title>
+  <title> Thrift入门 | 海边的阿月 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -147,7 +147,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Github搬运工</span>
+      <span class="site-title">海边的阿月</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -297,8 +297,8 @@
 
       
         <h1 id="Thrift是什么"><a href="#Thrift是什么" class="headerlink" title="Thrift是什么"></a>Thrift是什么</h1><p>Thrift是一个跨语言的服务部署框架，最初由Facebook于2007年开发，2008年进入Apache开源项目。Thrift通过IDL（Interface Definition Language，接口定义语言）来定义RPC（Remote Procedure Call，远程过程调用）的接口和数据类型，然后通过thrift编译器生成不同语言的代码，并由生成的代码负责RPC协议层和传输层的实现。<br><a id="more"></a></p>
-<h1 id="IDL"><a href="#IDL" class="headerlink" title="IDL"></a>IDL</h1><p>接口定义语言，用于跨语言的RPC服务接口的定义<br>thrift支持的类型</p>
-<h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>bool，布尔型，1个字节；<br>byte，有符号单字节；<br>i16，有符号16位整型；<br>i32，有符号32位整型；<br>i64，有符号64位整型；<br>double，64位浮点数；<br>string，字符串；<br>binary，字节数组；<br>注意：thrift不支持无符号整型。</p>
+<h1 id="IDL"><a href="#IDL" class="headerlink" title="IDL"></a>IDL</h1><p>接口定义语言，用于跨语言的RPC服务接口的定义</p>
+<h1 id="thrift支持的类型"><a href="#thrift支持的类型" class="headerlink" title="thrift支持的类型"></a>thrift支持的类型</h1><h2 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h2><p>bool，布尔型，1个字节；<br>byte，有符号单字节；<br>i16，有符号16位整型；<br>i32，有符号32位整型；<br>i64，有符号64位整型；<br>double，64位浮点数；<br>string，字符串；<br>binary，字节数组；<br>注意：thrift不支持无符号整型。</p>
 <h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><p>map<t1,t2>，字典；<br>list，列表；<br>set，集合；<br>注意：容器中的元素类型可以是除了service 以外的任何合法thrift类型（包括结构体和异常）。<br>与JAVA的类型的对应关系<br>bool: boolean<br>binary: byte[]<br>byte: byte<br>i16: short<br>i32: int<br>i64: long<br>double: double<br>string: String<br>list: List<br>set: Set<br>map<t1,t2>: Map<t1, t2=""></t1,></t1,t2></t1,t2></p>
 <h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><p>结构体中，每个字段包含一个整数ID，数据类型、字段名，和一个可选的默认值。</p>
 <p>###tips：</p>
@@ -315,7 +315,7 @@
 <ol>
 <li>getter 、setter、 构造器上缺少ThriftField，ThriftCOnstructor注解<br>java.lang.IllegalArgumentException: Multiple entries with same key:<br>原因在于thrift不支持重载，因此同名方法即使参数不同也要使用 @ThriftMethod(“name”)标识method名</li>
 </ol>
-<p>参考文档<br><a href="http://www.cnblogs.com/chenny7/p/4224720.html" target="_blank" rel="external">http://www.cnblogs.com/chenny7/p/4224720.html</a><br><a href="http://diwakergupta.github.io/thrift-missing-guide/" target="_blank" rel="external">http://diwakergupta.github.io/thrift-missing-guide/</a></p>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="http://www.cnblogs.com/chenny7/p/4224720.html" target="_blank" rel="external">http://www.cnblogs.com/chenny7/p/4224720.html</a><br><a href="http://diwakergupta.github.io/thrift-missing-guide/" target="_blank" rel="external">http://diwakergupta.github.io/thrift-missing-guide/</a></p>
 
       
     </div>
@@ -433,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -482,7 +482,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Thrift是什么"><span class="nav-number">1.</span> <span class="nav-text">Thrift是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDL"><span class="nav-number">2.</span> <span class="nav-text">IDL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本类型"><span class="nav-number">2.1.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">2.2.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体"><span class="nav-number">2.3.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">2.4.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service"><span class="nav-number">2.5.</span> <span class="nav-text">Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDL例程"><span class="nav-number">2.6.</span> <span class="nav-text">IDL例程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他的语法"><span class="nav-number">2.7.</span> <span class="nav-text">其他的语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDL的替代方案——Swift"><span class="nav-number">3.</span> <span class="nav-text">IDL的替代方案——Swift</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thrift的Java注解实现"><span class="nav-number">3.1.</span> <span class="nav-text">Thrift的Java注解实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-demo"><span class="nav-number">3.2.</span> <span class="nav-text">Swift demo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发过程中异常处理"><span class="nav-number">4.</span> <span class="nav-text">开发过程中异常处理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Thrift是什么"><span class="nav-number">1.</span> <span class="nav-text">Thrift是什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDL"><span class="nav-number">2.</span> <span class="nav-text">IDL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#thrift支持的类型"><span class="nav-number">3.</span> <span class="nav-text">thrift支持的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本类型"><span class="nav-number">3.1.</span> <span class="nav-text">基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">3.2.</span> <span class="nav-text">容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体"><span class="nav-number">3.3.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异常"><span class="nav-number">3.4.</span> <span class="nav-text">异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service"><span class="nav-number">3.5.</span> <span class="nav-text">Service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDL例程"><span class="nav-number">3.6.</span> <span class="nav-text">IDL例程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他的语法"><span class="nav-number">3.7.</span> <span class="nav-text">其他的语法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDL的替代方案——Swift"><span class="nav-number">4.</span> <span class="nav-text">IDL的替代方案——Swift</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thrift的Java注解实现"><span class="nav-number">4.1.</span> <span class="nav-text">Thrift的Java注解实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift-demo"><span class="nav-number">4.2.</span> <span class="nav-text">Swift demo</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#开发过程中异常处理"><span class="nav-number">5.</span> <span class="nav-text">开发过程中异常处理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
             
           </div>
         </section>
