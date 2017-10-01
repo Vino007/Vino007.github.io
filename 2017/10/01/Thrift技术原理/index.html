@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="RPC," />
 
 
 
@@ -84,12 +84,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Github搬运工">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="RPC介绍RPC解决的是什么问题？用来解决无法在一个进程内，甚至一个计算机内通过调用本地方法来完成需求，比如不同系统之间的通信、不同组织间的通信、分布式集群通信等。RPC过程：Client端通过Client Stub将接口、方法、参数按照协议规定的进行编码，并且通过网络传输到Server端。Server端的收到请求后交给Server Stub进行解码并发起后端调用，最终将执行结果返回Client更">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Thrift技术原理析">
+<meta property="og:url" content="http://yoursite.com/2017/10/01/Thrift技术原理/index.html">
 <meta property="og:site_name" content="Github搬运工">
+<meta property="og:description" content="RPC介绍RPC解决的是什么问题？用来解决无法在一个进程内，甚至一个计算机内通过调用本地方法来完成需求，比如不同系统之间的通信、不同组织间的通信、分布式集群通信等。RPC过程：Client端通过Client Stub将接口、方法、参数按照协议规定的进行编码，并且通过网络传输到Server端。Server端的收到请求后交给Server Stub进行解码并发起后端调用，最终将执行结果返回Client更">
+<meta property="og:updated_time" content="2017-10-01T05:38:28.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Github搬运工">
+<meta name="twitter:title" content="Thrift技术原理析">
+<meta name="twitter:description" content="RPC介绍RPC解决的是什么问题？用来解决无法在一个进程内，甚至一个计算机内通过调用本地方法来完成需求，比如不同系统之间的通信、不同组织间的通信、分布式集群通信等。RPC过程：Client端通过Client Stub将接口、方法、参数按照协议规定的进行编码，并且通过网络传输到Server端。Server端的收到请求后交给Server Stub进行解码并发起后端调用，最终将执行结果返回Client更">
 
 
 
@@ -110,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/01/Thrift技术原理/"/>
 
-  <title> Github搬运工 </title>
+  <title> Thrift技术原理析 | Github搬运工 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -133,9 +137,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -232,9 +234,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -254,10 +256,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2017/10/01/Thrift技术原理/" itemprop="url">
-                  Thrift技术原理析
-                </a>
+                Thrift技术原理析
               
             
           </h1>
@@ -297,9 +296,7 @@
       
 
       
-        
-          
-            <h1 id="RPC介绍"><a href="#RPC介绍" class="headerlink" title="RPC介绍"></a>RPC介绍</h1><h2 id="RPC解决的是什么问题？"><a href="#RPC解决的是什么问题？" class="headerlink" title="RPC解决的是什么问题？"></a>RPC解决的是什么问题？</h2><p>用来解决无法在一个进程内，甚至一个计算机内通过调用本地方法来完成需求，比如不同系统之间的通信、不同组织间的通信、分布式集群通信等。<br>RPC过程：<br>Client端通过Client Stub将接口、方法、参数按照协议规定的进行编码，并且通过网络传输到Server端。Server端的收到请求后交给Server Stub进行解码并发起后端调用，最终将执行结果返回Client<br>更详细的过程：<br>　　(1). client代码像普通函数调用一样调用client stub函数，这个调用是本地调用，调用参数会和平常函数调用一样进行返回地址和调用参数压栈操作；<br>　　(2). client stub会把调用参数和其它信息(比如调用方法名、调用属性等，可以称为metadata)进行打包封装成message，然后通过系统调用发送该message，这个打包的过程是个序列化的过程；<br>　　(3). client寻求到服务端的地址，然后通过本地操作系统经由某种协议，将上述message发送给server端；<br>　　(4). server端的操作系统接收message后将其传递给server stub；<br>　　(5). server stub将message解包，得到原始传递过来的各项调用参数，解包的过程是反序列化的过程；<br>　　(6). server stub调用server端的本地函数，然后将得到的结果按照上述类似的步骤反向传递给client作为结果返回。当然整个过程也可能不那么顺利，那么也应该产生合适的状态码、异常信息作为返回。<br>　所以RPC实际是通过client stub和server stub起到一个代理的作用，将client的请求转发到server端去操作，并将操作得到的结果回传，因为传递是跨进程、跨主机的，所以必须进行序列化和反序列化的过程来保证消息的正确性<br>影响RPC性能点有哪些？<br>1、传输协议HTTP、TCP、UDP<br>2、序列化方案：Java自带的序列化、其他序列化框架Protobuf、Kryo、Hession<br>3、工作模式同步or异步<br>同步方式是Client端向Server端发送请求，阻塞等待，直到Server端响应。异步是指Client端调用后无需等待，可以通过返回接口继续接受结果，也可以不接受结果，只是单纯调用。 </p>
+        <h1 id="RPC介绍"><a href="#RPC介绍" class="headerlink" title="RPC介绍"></a>RPC介绍</h1><h2 id="RPC解决的是什么问题？"><a href="#RPC解决的是什么问题？" class="headerlink" title="RPC解决的是什么问题？"></a>RPC解决的是什么问题？</h2><p>用来解决无法在一个进程内，甚至一个计算机内通过调用本地方法来完成需求，比如不同系统之间的通信、不同组织间的通信、分布式集群通信等。<br>RPC过程：<br>Client端通过Client Stub将接口、方法、参数按照协议规定的进行编码，并且通过网络传输到Server端。Server端的收到请求后交给Server Stub进行解码并发起后端调用，最终将执行结果返回Client<br>更详细的过程：<br>　　(1). client代码像普通函数调用一样调用client stub函数，这个调用是本地调用，调用参数会和平常函数调用一样进行返回地址和调用参数压栈操作；<br>　　(2). client stub会把调用参数和其它信息(比如调用方法名、调用属性等，可以称为metadata)进行打包封装成message，然后通过系统调用发送该message，这个打包的过程是个序列化的过程；<br>　　(3). client寻求到服务端的地址，然后通过本地操作系统经由某种协议，将上述message发送给server端；<br>　　(4). server端的操作系统接收message后将其传递给server stub；<br>　　(5). server stub将message解包，得到原始传递过来的各项调用参数，解包的过程是反序列化的过程；<br>　　(6). server stub调用server端的本地函数，然后将得到的结果按照上述类似的步骤反向传递给client作为结果返回。当然整个过程也可能不那么顺利，那么也应该产生合适的状态码、异常信息作为返回。<br>　所以RPC实际是通过client stub和server stub起到一个代理的作用，将client的请求转发到server端去操作，并将操作得到的结果回传，因为传递是跨进程、跨主机的，所以必须进行序列化和反序列化的过程来保证消息的正确性<br>影响RPC性能点有哪些？<br>1、传输协议HTTP、TCP、UDP<br>2、序列化方案：Java自带的序列化、其他序列化框架Protobuf、Kryo、Hession<br>3、工作模式同步or异步<br>同步方式是Client端向Server端发送请求，阻塞等待，直到Server端响应。异步是指Client端调用后无需等待，可以通过返回接口继续接受结果，也可以不接受结果，只是单纯调用。 </p>
 <h1 id="Thrift介绍"><a href="#Thrift介绍" class="headerlink" title="Thrift介绍"></a>Thrift介绍</h1><h2 id="Thrift的主要组件："><a href="#Thrift的主要组件：" class="headerlink" title="Thrift的主要组件："></a>Thrift的主要组件：</h2><ul>
 <li>Transport：传输组件，类似与Java中的IO流、socket</li>
 <li>Protocol：提供协议和编解码的组件</li>
@@ -347,601 +344,59 @@
 <p>同步IO：<br>TThreadPoolServer， 多线程阻塞式 I/O，采用同步IO的方式来Accept，然后交给一个线程池来处理后续动作<br>TSimpleServer 单线程阻塞IO</p>
 <h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p>RPC设计和使用中的一些杂谈  <a href="https://taozj.org/201701/rpc-principle-and-tips.html" target="_blank" rel="external">https://taozj.org/201701/rpc-principle-and-tips.html</a><br>thrift 的原理和使用 <a href="http://www.cnblogs.com/chenny7/p/4224720.html" target="_blank" rel="external">http://www.cnblogs.com/chenny7/p/4224720.html</a><br><a href="http://thrift.apache.org/docs/concepts" target="_blank" rel="external">http://thrift.apache.org/docs/concepts</a><br><a href="http://blog.csdn.net/iter_zc/article/details/39497863" target="_blank" rel="external">http://blog.csdn.net/iter_zc/article/details/39497863</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/09/29/Thrift入门/" itemprop="url">
-                  Thrift入门
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-09-29T23:03:36+08:00" content="2017-09-29">
-              2017-09-29
-            </time>
-          </span>
-
+        <div class="post-tags">
           
-
-          
-            
-          
-
-          
-
-          
-          
-
+            <a href="/tags/RPC/" rel="tag">#RPC</a>
           
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h1 id="Thrift是什么"><a href="#Thrift是什么" class="headerlink" title="Thrift是什么"></a>Thrift是什么</h1><p>Thrift是一个跨语言的服务部署框架，最初由Facebook于2007年开发，2008年进入Apache开源项目。Thrift通过IDL（Interface Definition Language，接口定义语言）来定义RPC（Remote Procedure Call，远程过程调用）的接口和数据类型，然后通过thrift编译器生成不同语言的代码，并由生成的代码负责RPC协议层和传输层的实现。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/09/29/Thrift入门/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/29/Thrift入门/" rel="next" title="Thrift入门">
+                <i class="fa fa-chevron-left"></i> Thrift入门
+              </a>
+            
           </div>
-        
-      
-    </div>
 
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+          <div class="post-nav-prev post-nav-item">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/25/非阻塞同步实现/" itemprop="url">
-                  非阻塞同步实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-25T13:44:25+08:00" content="2016-08-25">
-              2016-08-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><ul>
-<li>阻塞同步：即互斥同步，包括synchronized,Lock 。悲观锁，总是认为数据会被更改，无论共享的数据是否会出现竞争，都会进行加锁，用户态和内核态转换，维护锁计数器和检查是否有被阻塞的线程需要唤醒等操作，耗费性能。</li>
-<li>非阻塞同步：采用乐观锁，当数据产生了冲突才采取补偿措施（最常见的补偿措施就是不断的重试，直到成功为止），这种乐观的并发策略不需要把线程挂起，极大提升了性能
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/25/非阻塞同步实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/24/动态绑定与静态绑定实现原理/" itemprop="url">
-                  动态绑定与静态绑定实现原理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-24T16:06:26+08:00" content="2016-08-24">
-              2016-08-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="静态绑定与动态绑定的定义"><a href="#静态绑定与动态绑定的定义" class="headerlink" title="静态绑定与动态绑定的定义"></a>静态绑定与动态绑定的定义</h2><p>类的生命周期大致是这样一个过程：加载-&gt;验证-&gt;准备-&gt;解析-&gt;初始化-&gt;使用-&gt;卸载<br>而这之中的解析阶段并不是固定顺序的，解析可以在初始化后再开始，这就是Java的运行时绑定（动态绑定）<br>在编译阶段就进行解析确定类型的叫做静态绑定。<br>Java为了实现方法多态，将<code>Override</code>的方法使用动态绑定（因为这种方法在编译时是不确定具体的对象是什么的，只有到运行时才知道），<code>overload</code>方法使用静态绑定<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/24/动态绑定与静态绑定实现原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/Zookeeper在Storm中的应用/" itemprop="url">
-                  Zookeeper在Storm中的应用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T22:24:55+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Zookeeper在Storm中的应用"><a href="#Zookeeper在Storm中的应用" class="headerlink" title="Zookeeper在Storm中的应用"></a>Zookeeper在Storm中的应用</h1><h2 id="Storm与Zookeeper关联"><a href="#Storm与Zookeeper关联" class="headerlink" title="Storm与Zookeeper关联"></a>Storm与Zookeeper关联</h2><p>Storm与zookeeper关系如下图：<br><img src="http://ocbdflrbk.bkt.clouddn.com/storm-zookeeper%E5%85%B3%E8%81%94.png" alt="Storm与zookeeper关系"><br>由上图可以看出，Storm中使用Zookeeper主要用于Storm集群各节点的分布式协调工作，具体功能如下：</p>
-<ul>
-<li>存储客户端提供的topology任务信息，nimbus负责将任务分配信息写入Zookeeper，supervisor从Zookeeper上读取任务分配信息；</li>
-<li>存储supervisor和worker的心跳，使得nimbus可以监控整个集群的状态， 从而将挂掉的worker的任务重新分配到其他worker； </li>
-<li>存储整个集群的所有状态信息和配置信息。</li>
-</ul>
-<p>由此可见Storm的所有的状态信息都保存在Zookeeper里面，nimbus通过在zookeeper上面写状态信息来分配任务，supervisor将节点的健康状态写在zookeeper上，使得nimbus可以监控整个storm集群的状态，从而可以重启一些挂掉的task。 ZooKeeper使得整个storm集群十分的健壮-—任何一台工作机器挂掉都没有关系，只要重启然后从zookeeper上面重新获取状态信息就可以了。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/22/Zookeeper在Storm中的应用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/22/zookeeper-getstarted/" itemprop="url">
-                  zookeeper环境搭建
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-22T12:53:35+08:00" content="2016-08-22">
-              2016-08-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/zookeeper/" itemprop="url" rel="index">
-                    <span itemprop="name">zookeeper</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><code>wget</code>命令下载安装包<br>tar xvf  zookeeper-3.4.8.tar.gz</p>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>cp conf/zoo_sample.cfg conf/zoo.cfg<br>vi conf/zoo.cfg<br>将dataDir修改为自己设定的目录</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/22/zookeeper-getstarted/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -949,6 +404,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -968,8 +427,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -1030,6 +498,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RPC介绍"><span class="nav-number">1.</span> <span class="nav-text">RPC介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RPC解决的是什么问题？"><span class="nav-number">1.1.</span> <span class="nav-text">RPC解决的是什么问题？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Thrift介绍"><span class="nav-number">2.</span> <span class="nav-text">Thrift介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thrift的主要组件："><span class="nav-number">2.1.</span> <span class="nav-text">Thrift的主要组件：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Thrift框架的远程过程调用的工作过程如下："><span class="nav-number">2.2.</span> <span class="nav-text">Thrift框架的远程过程调用的工作过程如下：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件具体分析"><span class="nav-number">2.3.</span> <span class="nav-text">组件具体分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transport"><span class="nav-number">2.3.1.</span> <span class="nav-text">Transport</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Processor"><span class="nav-number">2.3.2.</span> <span class="nav-text">Processor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ServiceClient"><span class="nav-number">2.3.3.</span> <span class="nav-text">ServiceClient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TServer的实现类，主要也是分为非阻塞IO和同步IO"><span class="nav-number">2.3.4.</span> <span class="nav-text">TServer的实现类，主要也是分为非阻塞IO和同步IO</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">3.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -1126,6 +605,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
